@@ -1,22 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { animals } from './components/animals';
+
+const title = "";
+const images = [];
+
+for (const animal in animals) {
+  images.push(<img 
+    key={animal} 
+    className={`${animal} animal`}
+    alt={animal}
+    src={animals[animal].image}
+    aria-label={animal}
+    role='button'
+    onClick={displayFact} 
+  />)
+};
+
+function displayFact(e) {
+  const selectedAnimal = e.target.alt;
+  const animalInfo = animals[selectedAnimal];
+  const optionIndex = Math.floor(Math.random()*animalInfo.facts.length);
+  const funFact = animalInfo.facts[optionIndex];
+  document.getElementById('fact').innerHTML = funFact;
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Testing, testing... is this thing on?
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{!title ? 'Click on an animal for a fun fact!' : title}</h1>
+      <p className="fact" id='fact'></p>
+      <div className='animals'>
+        {images}
+      </div>
     </div>
   );
 }
